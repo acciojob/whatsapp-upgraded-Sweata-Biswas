@@ -120,14 +120,18 @@ public class WhatsappRepository {
        }
         userHashMap.remove(user.getMobile());
        groupUserHashMap.get(groupName).remove(user);
+
       Group group = groupHashMap.get(groupName);
         group.setNumberOfParticipants(group.getNumberOfParticipants()-1);
+
+
        List<Message> UserMessageList= userMessageHashMap.get(user.getMobile());
         List<Message> groupMessageList=groupMessageHashMap.get(group.getName());
+
+        for(Message message: UserMessageList){
+            messageHashMap.remove(message.getId());
+        }
         groupMessageList.removeAll(UserMessageList);
-//        for(Message message: UserMessageList){
-//            messageHashMap.remove(message.getId());
-//        }
         userMessageHashMap.remove(user.getMobile());
 
         return groupUserHashMap.get(groupName).size()+groupMessageHashMap.get(groupName).size()+messageHashMap.size();
