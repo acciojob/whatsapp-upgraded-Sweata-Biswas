@@ -116,7 +116,6 @@ public class WhatsappRepository {
               groupName = map.getKey();
               map.getValue().remove(user);
               groupSize = map.getValue().size();
-              break;
            }
        }
        if(!foundUser){
@@ -132,22 +131,16 @@ public class WhatsappRepository {
         group.setNumberOfParticipants(group.getNumberOfParticipants()-1);
 
 
-//       List<Message> UserMessageList= userMessageHashMap.get(user.getMobile());
-//        List<Message> groupMessageList=groupMessageHashMap.get(group.getName());
-//
-//        for(Message message: UserMessageList){
-//            messageHashMap.remove(message.getId());
-//        }
-//        groupMessageList.removeAll(UserMessageList);
-//        userMessageHashMap.remove(user.getMobile());
+       List<Message> UserMessageList= userMessageHashMap.get(user.getMobile());
+        List<Message> groupMessageList=groupMessageHashMap.get(group.getName());
 
-        if (userMessageHashMap.containsKey(user.getMobile()))
-        {
-            messageCount = userMessageHashMap.get(user.getMobile()).size() - 2;
-            userMessageHashMap.remove(user.getMobile());
+        for(Message message: UserMessageList){
+            messageHashMap.remove(message.getId());
         }
-//        return groupSize+groupMessageHashMap.get(groupName).size()+messageHashMap.size();
-        return groupSize + messageCount + overallMessageCount;
+        groupMessageList.removeAll(UserMessageList);
+        userMessageHashMap.remove(user.getMobile());
+
+        return groupSize+groupMessageHashMap.get(groupName).size()+messageHashMap.size();
     }
 
     public String findMessage(Date start, Date end, int k) throws Exception {
