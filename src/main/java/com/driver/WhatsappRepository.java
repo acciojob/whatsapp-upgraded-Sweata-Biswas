@@ -90,6 +90,7 @@ public class WhatsappRepository {
     }
 
     public String changeAdmin(User approver, User user, Group group) throws Exception {
+
         if(!groupHashMap.containsKey(group.getName())){
             throw new Exception("Group does not exist");
         }
@@ -106,10 +107,16 @@ public class WhatsappRepository {
     public int removeUser(User user) throws Exception{
         boolean foundUser = false;
         String groupName = null;
+        int groupSize = 0;
+//        int messageCount = 0;
+//        int overallMessageCount = messageHashMap.size();
        for(Map.Entry<String ,List<User>> map : groupUserHashMap.entrySet()){
           if( map.getValue().contains(user)){
                 foundUser = true;
               groupName = map.getKey();
+              map.getValue().remove(user);
+              groupSize = map.getValue().size();
+              break;
            }
        }
        if(!foundUser){
@@ -119,7 +126,7 @@ public class WhatsappRepository {
            throw new Exception("Cannot remove admin");
        }
         userHashMap.remove(user.getMobile());
-       groupUserHashMap.get(groupName).remove(user);
+
 
       Group group = groupHashMap.get(groupName);
         group.setNumberOfParticipants(group.getNumberOfParticipants()-1);
@@ -134,7 +141,7 @@ public class WhatsappRepository {
         groupMessageList.removeAll(UserMessageList);
         userMessageHashMap.remove(user.getMobile());
 
-        return groupUserHashMap.get(groupName).size()+groupMessageHashMap.get(groupName).size()+messageHashMap.size();
+        return groupSize+groupMessageHashMap.get(groupName).size()+messageHashMap.size();
     }
 
     public String findMessage(Date start, Date end, int k) throws Exception {
