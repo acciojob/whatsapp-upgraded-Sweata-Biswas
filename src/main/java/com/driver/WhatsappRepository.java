@@ -4,17 +4,7 @@ import java.util.*;
 
 public class WhatsappRepository {
 
-//    public class userMessage
-//    {
-//        String UserMobile;
-//        List<Message> messageList;
-//
-//        public userMessage(String UserMobile, List<Message> messageList)
-//        {
-//            this.messageList = messageList;
-//            this.UserMobile = UserMobile;
-//        }
-//    }
+
 //    hashmap of user name and user object
     HashMap<String,User> userHashMap = new HashMap<>();
 //    hashmap of group name and group object
@@ -140,7 +130,19 @@ public class WhatsappRepository {
         }
         userMessageHashMap.remove(user.getMobile());
 
-        return groupUserHashMap.get(groupName).size()+groupMessageHashMap.get(groupName).size()+messageHashMap.size();
+        return groupUserHashMap.get(groupName).size()+groupMessageHashMap.get(groupName).size()+messageHashMap.size()+1;
     }
 
+    public String findMessage(Date start, Date end, int k) throws Exception {
+        int messageCount =0;
+        for(Map.Entry<Integer, Message> map : messageHashMap.entrySet()){
+            if(map.getValue().getTimestamp().after(start) && map.getValue().getTimestamp().before(end)){
+                messageCount++;
+            }
+        }
+        if(k > messageCount){
+            throw new Exception("K is greater than the number of messages");
+        }
+        return "SUCCESS";
+    }
 }
