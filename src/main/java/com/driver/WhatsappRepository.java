@@ -125,12 +125,12 @@ public class WhatsappRepository {
        List<Message> UserMessageList= userMessageHashMap.get(user.getMobile());
         List<Message> groupMessageList=groupMessageHashMap.get(group.getName());
         groupMessageList.removeAll(UserMessageList);
-        for(Message message: UserMessageList){
-            messageHashMap.remove(message.getId());
-        }
+//        for(Message message: UserMessageList){
+//            messageHashMap.remove(message.getId());
+//        }
         userMessageHashMap.remove(user.getMobile());
 
-        return groupUserHashMap.get(groupName).size()+groupMessageHashMap.get(groupName).size()+messageHashMap.size()+1;
+        return groupUserHashMap.get(groupName).size()+groupMessageHashMap.get(groupName).size()+messageHashMap.size();
     }
 
     public String findMessage(Date start, Date end, int k) throws Exception {
