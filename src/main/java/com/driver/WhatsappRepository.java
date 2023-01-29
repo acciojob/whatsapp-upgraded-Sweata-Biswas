@@ -66,14 +66,14 @@ public class WhatsappRepository {
 
     public int createMessage(String content) {
         int id = messageHashMap.size() + 1;
-        Date timestamp = new Date();
+
         Message message = new Message(id,content);
         messageHashMap.put(id,message);
         return id;
     }
 
     public int sendMessage(Message message, User sender, Group group) throws Exception{
-        if(groupHashMap.containsKey(group.getName())){
+        if(!groupHashMap.containsKey(group.getName())){
             throw new Exception("Group does not exist");
         }
        List<User> userList = groupUserHashMap.get(group.getName());
