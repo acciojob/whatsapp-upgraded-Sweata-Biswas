@@ -108,8 +108,8 @@ public class WhatsappRepository {
         boolean foundUser = false;
         String groupName = null;
         int groupSize = 0;
-//        int messageCount = 0;
-//        int overallMessageCount = messageHashMap.size();
+        int messageCount = 0;
+        int overallMessageCount = messageHashMap.size();
        for(Map.Entry<String ,List<User>> map : groupUserHashMap.entrySet()){
           if( map.getValue().contains(user)){
                 foundUser = true;
@@ -133,15 +133,24 @@ public class WhatsappRepository {
 
 
        List<Message> UserMessageList= userMessageHashMap.get(user.getMobile());
-        List<Message> groupMessageList=groupMessageHashMap.get(group.getName());
+//        List<Message> groupMessageList=groupMessageHashMap.get(group.getName());
 
         for(Message message: UserMessageList){
             messageHashMap.remove(message.getId());
         }
-        groupMessageList.removeAll(UserMessageList);
+        for(Message message: UserMessageList){
+            messageHashMap.remove(message.getId());
+            groupMessageHashMap.get(groupName).remove(message);
+        }
         userMessageHashMap.remove(user.getMobile());
 
+//        if (userMessageHashMap.containsKey(user.getMobile()))
+//        {
+//            messageCount = userMessageHashMap.get(user.getMobile()).size() - 2;
+//            userMessageHashMap.remove(user.getMobile());
+//        }
         return groupSize+groupMessageHashMap.get(groupName).size()+messageHashMap.size();
+//        return groupSize + messageCount + overallMessageCount;
     }
 
     public String findMessage(Date start, Date end, int k) throws Exception {
