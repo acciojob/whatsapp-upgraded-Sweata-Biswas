@@ -67,7 +67,7 @@ public class WhatsappRepository {
     public int createMessage(String content) {
         int id = messageHashMap.size() + 1;
         Date timestamp = new Date();
-        Message message = new Message(id,content,timestamp);
+        Message message = new Message(id,content);
         messageHashMap.put(id,message);
         return id;
     }
